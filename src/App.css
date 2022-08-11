@@ -48,7 +48,6 @@
   border-radius: 10px;
   background-color: red;
   display: flex;
-  justify-content: space-between;
 }
 
 .container {

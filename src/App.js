@@ -4,10 +4,7 @@ import { useEffect, useState } from "react";
 import { ADD } from "./Redux/Actions/Actions";
 
 function App({ store }) {
-  // console.log(store.dispatch(ADD({item: 'I bought icecream'})));
-
   const [data, setData] = useState(store.getState().data);
-
   store.subscribe(() => {
     console.log("in");
     setData([...store.getState().data]);
@@ -18,10 +15,6 @@ function App({ store }) {
     store.dispatch(ADD({ item: event.target.elements[0].value }));
     item: event.target.elements[0].value = "";
   }
-
-  // handleDelete = () =>{
-
-  // }
 
   return (
     <div className="App">
@@ -34,7 +27,6 @@ function App({ store }) {
             data.map((obj, index) => (
               <div className="card">
                 <span className="data" key={index}>{obj.item}</span> 
-                <button className="btn" onClick={}>Delete</button>
               </div>
             ))}
         </div>
