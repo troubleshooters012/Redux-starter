@@ -1,4 +1,6 @@
-export const ADD = (payload) => ({
-    type: 'ADD',
-    item: payload
-})
+export const ADD = (payload) => {
+    return {
+        type: 'ADD',
+        payload: payload
+    }
+}

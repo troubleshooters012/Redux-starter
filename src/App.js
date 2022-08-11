@@ -1,38 +1,43 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { useEffect, useState } from "react";
-import { ADD } from "./Redux/Actions/Actions";
 
-function App({ store }) {
-  const [data, setData] = useState(store.getState().data);
-  store.subscribe(() => {
-    console.log("in");
-    setData([...store.getState().data]);
-  });
+import {connect} from 'react-redux';
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    store.dispatch(ADD({ item: event.target.elements[0].value }));
-    item: event.target.elements[0].value = "";
+import {ADD} from './Redux/Actions/Actions';
+
+const mapStateToProps = (state) => {
+  return {
+    itemList: state.data
   }
-
-  return (
-    <div className="App">
-      <form onSubmit={handleSubmit}>
-        <input type="text" className="textbox" placeholder="enter Item" />
-        <button className="btn">Add Item</button>
-        <br></br>
-        <div className="container">
-          {data.length > 0 &&
-            data.map((obj, index) => (
-              <div className="card">
-                <span className="data" key={index}>{obj.item}</span> 
-              </div>
-            ))}
-        </div>
-      </form>
-    </div>
-  );
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addItem: (item) => {
+      return dispatch(ADD(item))
+    }
+  }
+}
+
+function App(props) {
+  function handleItem(e) {
+    e.preventDefault();
+    props.addItem({item: e.target.elements[0].value})
+  }
+    return (
+      <div>
+        <form onSubmit={handleItem}>
+          <input type="text"/>
+          <button>Submit</button>
+        </form>
+        {
+          props.itemList.length > 0 && props.itemList.map((item,index)=>(
+            <span key={index}>{item.item}</span>
+          ))
+        }
+      </div>
+    )
+}
+
+const AppComp = connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default AppComp;
